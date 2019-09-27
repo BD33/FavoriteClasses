@@ -1,3 +1,3 @@
-void bookList(char*** listOfTitles, int books);
-void favoriteList(char*** listOfTitles, char**** listOfFavorites, int books, int favNum);
-void writeToFile(char** listOfTitles, char**** listOfFavorites, int books, int favNum);
+void courseList(char*** listOfcourses, int numOfcourses);
+void favoriteList(char*** listOfcourses, char**** listOfFavorites, int numOfcourses, int favNum);
+void writeToFile(char** listOfcourses, char**** listOfFavorites, int numOfcourses, int favNum);

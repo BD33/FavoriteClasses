@@ -14,27 +14,27 @@
 int main(void)
 {
 	/*Variables for the program*/
-	char **listOfTitles;
+	char **listOfcourses;
 	char ***listOfFavorites;	
-	int numOfBooks;
+	int numOfcourses;
 	int favNum;
 	int answer;
 	int a;
 
-	/*Asks the user for the amount of book titles*/
-	printf("How many library book titles do you plan to enter? \n");
-	scanf("%d", &numOfBooks);
+	/*Asks the user for the amount of course titles*/
+	printf("How many course do you plan to enter? \n");
+	scanf("%d", &numOfcourses);
 	
-	/*Pass the array for book titles and the number of books to the function*/
-	bookList(&listOfTitles, numOfBooks);
+	/*Pass the array for courses titles and the number of courses to the function*/
+	bookList(&listOfcourses, numOfcourses);
 
-	/*Asks the user how many books will be on the favorites list */
-	printf("Of those %d books , how many do you plan to put on your favorites list ?", numOfBooks);
+	/*Asks the user how many courses will be on the favorites list */
+	printf("Of those %d course, how many do you plan to put on your favorites list ?", numOfcourses);
 	scanf("%d", &favNum); 
 	
 
-	/*passes the Array of book titles , List of favorites, number of books and length of favorites list*/
-	favoriteList(&listOfTitles, &listOfFavorites, numOfBooks, favNum);	
+	/*passes the Array of course names, List of favorites, number of course and length of favorites list*/
+	favoriteList(&listOfcourses, &listOfFavorites, numOfcourses, favNum);
 	
 	/*askes the user if they want to save to a file */
 	printf("Do you want to save them (1=yes, 2=no): ");
@@ -42,14 +42,14 @@ int main(void)
 
 	/*if the users answers yes then the variables are passed to the writeToFile Function */
 	if(answer == 1){
-		writeToFile(listOfTitles,&listOfFavorites,numOfBooks,favNum);
+		writeToFile(listOfcourses,&listOfFavorites,numOfcourses,favNum);
 	}
 	/*Frees the allocated Memory */
-	if(listOfTitles != NULL){
-	for(a = 0; a < numOfBooks; a++){
-	 free(*(listOfTitles + a));
+	if(listOfcourses != NULL){
+	for(a = 0; a < numOfcourses; a++){
+	 free(*(listOfcourses + a));
 	}
-	free(listOfTitles);			
+	free(listOfcourses);
 	}
 
 	free(listOfFavorites);
@@ -57,28 +57,28 @@ int main(void)
 
 
 	
-void bookList(char*** listOfTitles, int books){
+void courseList(char*** listOfcourses, int numbers){
 
-	/*A function that populates the List of Book titles*/
+	/*A function that populates the List of course titles*/
 	/*Declared variables */
 	int i;
 	char *temp;
 	int count;	
-	/*Allocated Memory for the Title Array */
-	*listOfTitles = malloc(books * sizeof(char*));
-	if(*listOfTitles != NULL){
+	/*Allocated Memory for the course Array */
+	*listOfcourses = malloc(numbers * sizeof(char*));
+	if(*listOfcourses != NULL){
 	/*Allocates memory for each book title and asks the user for the titles one by one*/
 	for( i = 0; i<books; i++){
-		*(*listOfTitles + i) = malloc(61*sizeof(char));
-		printf("Enter the %d  book titles one to a line \n", books);
-		scanf(" %61[^\n]", *(*listOfTitles + i));
+		*(*listOfcourse + i) = malloc(61*sizeof(char));
+		printf("Enter the %d course titles one to a line \n", numbers);
+		scanf(" %61[^\n]", *(*listOfcourse + i));
 	}
 
-	/*Prints out what books the user has entered */
+	/*Prints out what courses the user has entered */
 	printf("You've entered: \n");
 	count = 1;
-	for(i=0; i<books; i++){
-		printf("%d. %s \n", count, *(*listOfTitles + i));
+	for(i=0; i<numbers; i++){
+		printf("%d. %s \n", count, *(*listOfcourses + i));
 		count++;
 		}
 	} else{
@@ -89,8 +89,8 @@ void bookList(char*** listOfTitles, int books){
 }
 
 
-void favoriteList(char*** booklist,char**** favoritelist, int books,int favNum){
-	/*Function that populates array of favorite book list and prints out favorite book list */
+void favoriteList(char*** courselist,char**** favoritelist, int numbers,int favNum){
+	/*Function that populates array of favorite course list and prints out favorite book list */
 	
 	int temp1;
 	int z;
@@ -102,13 +102,13 @@ void favoriteList(char*** booklist,char**** favoritelist, int books,int favNum){
 	
 	printf("Enter the number next to each book title you want on your favorite list: ");
 	
-	/*Takes in what books the user wants to be on the list and add the pointers  */
+	/*Takes in what courses the user wants to be on the list and add the pointers  */
 	for (z = 0; z < favNum; z++){
 		scanf(" %d", &temp1);
-		*(*favoritelist + z) = (*booklist + temp1 -1); 
+		*(*favoritelist + z) = (*courselist + temp1 -1);
 	}
 	
-	/*Prints out what books are on the favorites list */
+	/*Prints out what courses are on the favorites list */
 	printf("The books on your favorites list are: \n");
 	for(z = 0; z < favNum; z++){
 		printf("%d. %s \n",z+1 , *(*(*favoritelist + z)));
@@ -121,9 +121,9 @@ void favoriteList(char*** booklist,char**** favoritelist, int books,int favNum){
 
 }
 
-void writeToFile(char** bookList,char**** favoritelist, int books,  int favNum){
+void writeToFile(char** courseList,char**** favoritelist, int numbers,  int favNum){
 
-	/*Function that writes the users book list and favorite book list to their file */	
+	/*Function that writes the users courses list and favorite course list to their file */
 
 	int q;
 	FILE *out;
@@ -137,18 +137,18 @@ void writeToFile(char** bookList,char**** favoritelist, int books,  int favNum){
 	scanf("%s", fileName);
 	out = fopen(fileName, "w");
 	
-	/* prints out books the user has read */
-	fprintf(out, "Books I've Read: \n");
+	/* prints out courses the user has read */
+	fprintf(out, "Classes I've taken: \n");
 	for (q =0; q < books; q++){
-		fprintf(out, "%s \n" , *(bookList + q)); 
+		fprintf(out, "%s \n" , *(courseList + q));
 	}
 
-	/*prints out users favorite books */
+	/*prints out users favorite courses */
 	fprintf(out,  "\n My Favorites are: \n");
 	for( q = 0; q < favNum; q++){
 		fprintf(out,"%s \n" , *(*(*favoritelist + q))); 
 	}
-	printf("Your booklist and favorites have been saved to the file %s  \n", fileName);
+	printf("Your Classes and favorites have been saved to the file %s  \n", fileName);
 	} else{
 		printf("Unable to allocate memory");
 		exit(0);
